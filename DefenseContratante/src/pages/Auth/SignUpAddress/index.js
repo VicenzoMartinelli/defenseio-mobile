@@ -5,19 +5,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Input } from 'react-native-ui-kitten';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Spinner } from 'react-native-ui-kitten';
-import { login, findCityIdByName, registerUser } from '../../services/api';
-import { Formik, useFormik } from 'formik';
+import { findCityIdByName, registerUser } from '../../../services/api';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Geolocation from '@react-native-community/geolocation';
-import { GeocodeContext } from '../../providers/GeocodeProvider';
+import { GeocodeContext } from '../../../providers/GeocodeProvider';
 import { ToastAndroid } from 'react-native';
 
-Geolocation.setRNConfiguration({
-  authorizationLevel: 'always',
-  skipPermissionRequests: false
-});
-
-export default SignUp = ({ navigation }) => {
+const SignUpAddress = ({ navigation }) => {
   const initial = navigation.state.params;
 
   const [loading, setLoading] = useState(false);
@@ -85,7 +80,6 @@ export default SignUp = ({ navigation }) => {
     }
   }
 
-
   useEffect(() => {
     async function requestPermissions() {
       const granted = await PermissionsAndroid.request(
@@ -114,20 +108,20 @@ export default SignUp = ({ navigation }) => {
               try {
                 setLoading(false);
 
-                console.log(response.results[0]);
-
                 extractGeocodeResults(response.results[0].address_components);
               } catch {
                 Alert.alert('Não foi possível determinar sua localização');
               }
             })
-            .catch(() => {
+            .catch((err) => {
+              console.log(err);
               Alert.alert('Não foi possível determinar sua localização');
             });
-        }, () => {
+        }, (err) => {
+          console.log(err);
           Alert.alert('Opa :(', 'Não foi possível recuperar sua localização');
         },
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 });
+          { enableHighAccuracy: true, timeout: 20000 });
       }
     }
     requestPermissions();
@@ -269,3 +263,5 @@ const styles = StyleSheet.create({
     width: 5
   }
 });
+
+export default SignUpAddress;

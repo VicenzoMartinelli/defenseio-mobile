@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export async function loggedIn() {
   const token = await getToken();
-  console.log(token && !isTokenExpired(token))
+
   return token && !isTokenExpired(token);
 };
 

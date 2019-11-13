@@ -3,22 +3,29 @@ import { KeyboardAvoidingView, Alert, Dimensions } from 'react-native';
 import { Button, Layout, Text } from 'react-native-ui-kitten';
 import { Input } from 'react-native-ui-kitten';
 import { SvgXml } from 'react-native-svg';
-import SvgAssets from '../../assets/svg-assets';
+import SvgAssets from '../../../assets/svg-assets';
 import { ScrollView } from 'react-native-gesture-handler';
-import { login } from '../../services/api';
+import { login } from '../../../services/api';
 import { Spinner } from 'react-native-ui-kitten';
 import styles from './styles';
-import { loggedIn } from '../../services/auth';
+import { loggedIn } from '../../../services/auth';
 
-export default Login = ({ navigation }) => {
+const Login = ({ navigation }) => {
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (loggedIn()) {
-      navigation.navigate('App');
+    async function isLoggedIn() {
+      const logg = await loggedIn();
+      console.log('logado:', logg);
+
+      if (logg) {
+        navigation.navigate('App');
+      }
     }
+
+    isLoggedIn();
   }, []);
 
   function handleLogin() {
@@ -83,3 +90,4 @@ export default Login = ({ navigation }) => {
 }
 
 
+export default Login;

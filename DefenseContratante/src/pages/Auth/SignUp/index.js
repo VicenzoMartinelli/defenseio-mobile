@@ -7,10 +7,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Spinner } from 'react-native-ui-kitten';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import validCpf from '../../utils/validators/validCpf';
-import InlineDatePicker from '../../components/InlineDatePicker';
+import validCpf from '../../../utils/validators/validCpf';
+import InlineDatePicker from '../../../components/InlineDatePicker';
 
-export default SignUp = ({ navigation }) => {
+const SignUp = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const schema = yup.object({
@@ -210,3 +210,5 @@ const styles = StyleSheet.create({
     width: 5
   }
 });
+
+export default SignUp;
