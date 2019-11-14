@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Layout, Text } from 'react-native-ui-kitten';
 import MenuList from '../../components/MenuList';
 import theme from '../../theme/theme';
+import { logout } from '../../services/auth';
 
 const Home = ({ navigation }) => {
   const options = [{

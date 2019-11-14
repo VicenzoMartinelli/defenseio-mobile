@@ -18,7 +18,7 @@ const InlineDatePicker = ({ formikValues, setFieldValue, placeholder, value, sta
         style={{ marginTop: 10, width: '100%' }}
       />
       <DatePicker
-        style={{ width: 50, position: 'absolute', left: iconSize === "default" ? "80%" : "70%", top: iconSize === 'default' ? "initial" : '25%' }}
+        style={{ width: 50, position: 'absolute', left: iconSize === "default" ? "80%" : "70%", top: "25%"}}
         date={formikValues[value]} //initial date from state
         mode={mode}
         hideText={true}

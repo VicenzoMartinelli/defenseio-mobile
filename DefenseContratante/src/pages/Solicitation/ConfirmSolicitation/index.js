@@ -58,7 +58,7 @@ const ConfirmSolicitation = ({ navigation }) => {
                 }
 
                 ToastAndroid.show('Solicitação criada com sucesso!', ToastAndroid.SHORT);
-                setTimeout(() => navigation.navigate('App'), 1500);
+                setTimeout(() => navigation.navigate('Home'), 1500);
             })
             .catch(err => {
                 setLoading(false);
