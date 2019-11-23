@@ -63,7 +63,6 @@ const SelectLocalization = ({ navigation }) => {
                     });
 
                     if (type !== 2 && type !== 3) {
-                        console.log('1111')
                         const resetAction = StackActions.replace({
                             routeName: 'ConfirmSolicitation',
                             params: {
@@ -77,8 +76,7 @@ const SelectLocalization = ({ navigation }) => {
                     }
                 }, () => {
                     Alert.alert('Atenção', 'Não foi possível recuperar a localização do dispositivo');
-                },
-                    { enableHighAccuracy: true, timeout: 20000 });
+                }, { enableHighAccuracy: true, timeout: 20000 });
             }
         }
         requestPermissions();

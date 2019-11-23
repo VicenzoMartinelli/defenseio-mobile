@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Layout, Text, List, ListItem, Icon } from 'react-native-ui-kitten';
+import { Layout, Text, List, ListItem, Icon, Button } from 'react-native-ui-kitten';
 import theme from '../../../theme/theme';
 import bilingMethods from '../../../utils/enums/bilingMethods';
 import { textStyle } from '../../../theme/textStyles';
@@ -13,7 +13,7 @@ const SelectProvider = ({ navigation }) => {
 
     const [attendedModalities, setAttendedModalities] = useState([])
 
-    const { data, isResolved, reload } = useAsync({
+    const { data, isResolved } = useAsync({
         promiseFn: findAttendedModalityProviders,
         modalityType: type
     });
@@ -35,7 +35,7 @@ const SelectProvider = ({ navigation }) => {
                         category='s1'>
                         {item.providerName}
                     </Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
                         <Text
                             appearance='hint'
                             style={[textStyle.paragraph, styles.center]}
@@ -49,21 +49,29 @@ const SelectProvider = ({ navigation }) => {
                             {'R$ ' + item.basicValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </Text>
                     </View>
-                    <View style={styles.rateContainer}>
-                        {Array.from(Array(item.providerRate).keys()).map((x, index) => <Icon
-                            key={x}
-                            width={20} height={20} fill={theme['color-primary-500']}
-                            name="star"
-                        />)}
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <View style={styles.rateContainer}>
+                            {Array.from(Array(item.providerRate).keys()).map((x, index) => <Icon
+                                key={x}
+                                width={20} height={20} fill={theme['color-primary-500']}
+                                name="star"
+                            />)}
 
-                        {Array.from(Array(5 - item.providerRate).keys()).map((x, index) => <Icon
-                            key={index}
-                            width={20} height={20} fill={theme['color-primary-500']}
-                            name="star-outline"
-                        />)}
+                            {Array.from(Array(5 - item.providerRate).keys()).map((x, index) => <Icon
+                                key={index}
+                                width={20} height={20} fill={theme['color-primary-500']}
+                                name="star-outline"
+                            />)}
+                        </View>
+                        <Button
+                            status="primary"
+                            appearance="ghost"
+                            style={styles.actions}
+                            size="small"
+                            onPress={() => { }}>Ver comentários</Button>
                     </View>
                 </View>
-            </ListItem>);
+            </ListItem >);
     }
 
     useEffect(() => {
@@ -109,7 +117,8 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         paddingHorizontal: 20,
         paddingVertical: 10,
-        width: '100%'
+        width: '100%',
+        marginVertical: 5,
     },
     detailsContainer: {
         alignSelf: 'flex-start',
@@ -123,6 +132,14 @@ const styles = StyleSheet.create({
     },
     value: {
         textAlign: 'right'
+    },
+    actions: {
+        alignSelf: 'flex-end',
+        textAlign: 'right',
+        paddingRight: 0,
+        position: 'absolute',
+        right: '-4%',
+        top: '-25%'
     }
 });
 

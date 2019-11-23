@@ -114,11 +114,9 @@ const SignUpAddress = ({ navigation }) => {
               }
             })
             .catch((err) => {
-              console.log(err);
               Alert.alert('Não foi possível determinar sua localização');
             });
         }, (err) => {
-          console.log(err);
           Alert.alert('Opa :(', 'Não foi possível recuperar sua localização');
         },
           { enableHighAccuracy: true, timeout: 20000 });

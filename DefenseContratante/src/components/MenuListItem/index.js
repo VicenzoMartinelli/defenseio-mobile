@@ -14,8 +14,6 @@ import theme from '../../theme/theme';
 const MenuListItemComponent = (props) => {
     const { themedStyle, style, data, ...restProps } = props;
 
-    console.log(data.iconName);
-
     return (
         <ListItem
             style={[themedStyle.container, style]}
@@ -32,12 +30,13 @@ const MenuListItemComponent = (props) => {
                     category='s1'>
                     {data.title}
                 </Text>
-                <Text
+                {data.description && <Text
                     appearance='hint'
                     style={[textStyle.paragraph, themedStyle.center]}
                     category='p2'>
                     {data.description}
                 </Text>
+                }
             </View>
         </ListItem>
     );

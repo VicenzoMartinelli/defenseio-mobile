@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@aspnet/signalr": "^1.1.4",
     "@eva-design/eva": "^1.2.0",
     "@react-native-community/async-storage": "^1.6.2",
     "@react-native-community/geolocation": "^2.0.2",
@@ -26,6 +27,7 @@
     "react-native-indicators": "^0.17.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-maps": "^0.26.1",
+    "react-native-ratings": "^6.5.0",
     "react-native-reanimated": "^1.4.0",
     "react-native-svg": "^9.13.3",
     "react-native-ui-kitten": "^4.2.0",

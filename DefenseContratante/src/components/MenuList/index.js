@@ -11,7 +11,7 @@ import MenuListItem from '../MenuListItem';
 const { width } = Dimensions.get('window');
 
 const MenuListComponent = (props) => {
-    const { onItemPress: onPress, style, themedStyle, ...restProps } = props;
+    const { onItemPress: onPress, style, themedStyle, numColumns, ...restProps } = props;
 
     const onItemPress = (index) => {
         onPress(index);
@@ -29,7 +29,7 @@ const MenuListComponent = (props) => {
 
     return (
         <List
-            numColumns={1}
+            numColumns={numColumns}
             renderItem={renderItem}
             {...restProps}
         />
@@ -40,8 +40,8 @@ const MenuList = withStyles(MenuListComponent, (theme) => ({
     item: {
         flex: 1,
         marginVertical: 8,
-        maxWidth: width - 32,
-        marginHorizontal: 16,
+        maxWidth: width - 16,
+        marginHorizontal: 5,
     },
 }));
 

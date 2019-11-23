@@ -30,7 +30,6 @@ export async function getToken() {
 
 export async function logout() {
   var res = await AsyncStorage.multiGet(["dfs_jwt_tkn", "dfs_user"])
-  console.log(res);
 
   await AsyncStorage.multiRemove(["dfs_user", "dfs_jwt_tkn"]);
 

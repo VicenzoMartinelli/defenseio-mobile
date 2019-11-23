@@ -18,7 +18,6 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     async function isLoggedIn() {
       const logg = await loggedIn();
-      console.log('logado:', logg);
 
       if (logg) {
         navigation.navigate('App');

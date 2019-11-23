@@ -16,11 +16,23 @@ import SignUpAddress from '../pages/Auth/SignUpAddress';
 import SelectProvider from '../pages/Solicitation/SelectProvider';
 import SelectLocalization from '../pages/Solicitation/SelectLocalization';
 import ConfirmSolicitation from '../pages/Solicitation/ConfirmSolicitation';
+import SolicitationList from '../pages/Solicitation/SolicitationList';
+import FinishSolicitation from '../pages/Solicitation/FinishSolicitation';
+import SolicitationChat from '../pages/Chat/SolicitationChat';
+import CurrentNegociations from '../pages/Chat/CurrentNegociations';
+import Configs from '../pages/Configs';
+
+const defaultOptions = {
+  headerStyle: {
+    backgroundColor: '#1a2138',
+    borderBottomColor: theme['color-primary-500'],
+    borderBottomWidth: 1,
+    borderStyle: 'solid'
+  },
+  headerTintColor: theme['color-primary-500']
+};
 
 const AppRoutes = createSwitchNavigator({
-  // Loading: {
-  //   screen: () => <View><Text>cARREGANDO</Text></View>,
-  // },
   AuthStack: createStackNavigator(
     {
       SignIn: {
@@ -43,19 +55,16 @@ const AppRoutes = createSwitchNavigator({
       },
     },
     {
-      defaultNavigationOptions: {
-        headerStyle: {
-          backgroundColor: '#222b45',
-          borderBottomColor: theme['color-primary-500'],
-          borderBottomWidth: 1,
-          borderStyle: 'solid'
-        },
-        headerTintColor: theme['color-primary-500']
-      },
+      defaultNavigationOptions: defaultOptions
     }
   ),
   App: createBottomTabNavigator({
-    Settings: () => <Layout><Text>12313212321</Text></Layout>,
+    Settings: {
+      screen: Configs,
+      navigationOptions: {
+        headerShown: false
+      }
+    },
     Home: createStackNavigator({
       Home: {
         screen: Home,
@@ -81,19 +90,52 @@ const AppRoutes = createSwitchNavigator({
           headerTitle: 'Voltar'
         },
       },
+      SolicitationList: {
+        screen: SolicitationList,
+        navigationOptions: {
+          headerTitle: 'Início'
+        },
+      },
+      FinishSolicitation: {
+        screen: FinishSolicitation,
+        navigationOptions: {
+          headerTitle: 'Voltar'
+        },
+      },
+      SolicitationChat: {
+        screen: SolicitationChat,
+        navigationOptions: ({ navigation }) => {
+          return {
+            headerTitle: navigation.getParam('providerName', 'Nome do prestador'),
+            headerTitleStyle: {
+              alignSelf: 'center',
+              width: '70%',
+              textAlign: 'center'
+            },
+          }
+        },
+      },
     },
       {
-        defaultNavigationOptions: {
-          headerStyle: {
-            backgroundColor: '#1a2138',
-            borderBottomColor: theme['color-primary-500'],
-            borderBottomWidth: 1,
-            borderStyle: 'solid'
-          },
-          headerTintColor: theme['color-primary-500']
-        },
+        defaultNavigationOptions: defaultOptions,
       }),
-    Messages: () => <Layout><Text>12313212321</Text></Layout>,
+    Messages: createStackNavigator({
+      CurrentNegociations: {
+        screen: CurrentNegociations,
+        navigationOptions: {
+          headerShown: false
+        }
+      },
+      SolicitationChat: {
+        screen: SolicitationChat,
+        navigationOptions: {
+          headerTitle: 'Voltar'
+        }
+      },
+    },
+      {
+        defaultNavigationOptions: defaultOptions
+      }),
   }, {
     initialRouteName: 'Home',
     tabBarComponent: HomeNavigation
