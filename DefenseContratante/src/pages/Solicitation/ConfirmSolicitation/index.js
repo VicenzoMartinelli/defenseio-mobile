@@ -108,7 +108,7 @@ const ConfirmSolicitation = ({ navigation }) => {
                 setLoading(true);
 
                 Geolocation.getCurrentPosition(location => {
-
+                    console.log('localiz', location);
                     const { latitude, longitude } = location.coords;
 
                     setFieldValue('latitude', latitude);
@@ -125,12 +125,16 @@ const ConfirmSolicitation = ({ navigation }) => {
                                 Alert.alert('Não foi possível determinar sua localização');
                             }
                         })
-                        .catch(() => {
+                        .catch((err) => {
+                            console.log('errr provider geocode', JSON.stringify(err));
+                            
                             Alert.alert('Não foi possível determinar sua localização');
                         });
                 }, (err) => {
+                    console.log('errr BUSCA LOCALIZACAO', JSON.stringify(err));
+
                     Alert.alert('Opa :(', 'Não foi possível recuperar sua localização');
-                }, { enableHighAccuracy: true, timeout: 20000 });
+                }, { enableHighAccuracy: false, timeout: 20000, maximumAge: 10000 });
             }
         }
         requestPermissions();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Layout, Text, List, ListItem, Icon, Button, Input } from 'react-native-ui-kitten';
 import theme from '../../../theme/theme';
@@ -6,11 +6,9 @@ import { textStyle } from '../../../theme/textStyles';
 import { useAsync } from 'react-async';
 import { PacmanIndicator } from 'react-native-indicators';
 import { findMessagesFromUser, buildHubConnection } from '../../../services/api-chat';
-import { HubConnection } from '@aspnet/signalr';
+import { HubConnection, HubConnectionState } from '@aspnet/signalr';
 
 const SolicitationChat = ({ navigation }) => {
-    let ref = null;
-
     const { id } = navigation.state.params;
     const [messages, setMessages] = useState([])
     const [currentMessage, setCurrentMessage] = useState('');
@@ -39,14 +37,17 @@ const SolicitationChat = ({ navigation }) => {
     }
 
     const handleReceiveMessage = (data) => {
-        setMessages([...messages, data]);
+        console.log('1')
+        setMessages(lastMsgs => {
+            return [...lastMsgs, data];
+        });
     }
 
     const renderItem = ({ item }) => {
 
         const sendedProvider = item.isProviderSend;
         return (
-            <ListItem style={[styles.itemContainer, { alignSelf: (sendedProvider ? "flex-start" : "flex-end") }]}>
+            <ListItem key={item.id} style={[styles.itemContainer, { alignSelf: (sendedProvider ? "flex-start" : "flex-end") }]}>
                 <View style={[styles.lineFlex]}>
                     <Text
                         style={[textStyle.paragraph,
@@ -73,12 +74,10 @@ const SolicitationChat = ({ navigation }) => {
         async function createHub() {
             const hb = await buildHubConnection();
 
-            setHubConnect(hb);
-
             try {
-                await hb.start()
+                await hb.start();
 
-                hb.on('receiveChatMessage', handleReceiveMessage);
+                setHubConnect(hb);
             }
             catch (err) {
                 console.log(err)
@@ -89,8 +88,13 @@ const SolicitationChat = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
-        ref.scrollToEnd();
-    }, [messages, data]);
+        console.log('rub', hubConnect)
+
+        if (hubConnect && hubConnect.state === HubConnectionState.Connected) {
+            console.log(hubConnect)
+            hubConnect.on('receiveChatMessage', (data) => handleReceiveMessage(data));
+        }
+    }, [hubConnect]);
 
     return (
         <Layout style={{ flex: 1, backgroundColor: '#1a2138', flexDirection: 'column' }} theme={theme}>
@@ -101,7 +105,6 @@ const SolicitationChat = ({ navigation }) => {
                     numColumns={1}
                     renderItem={renderItem}
                     data={messages}
-                    ref={(r) => ref = r}
                 />
             </View>
             <View style={styles.inputContainer}>

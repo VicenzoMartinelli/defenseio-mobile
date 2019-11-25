@@ -119,7 +119,7 @@ const SignUpAddress = ({ navigation }) => {
         }, (err) => {
           Alert.alert('Opa :(', 'Não foi possível recuperar sua localização');
         },
-          { enableHighAccuracy: true, timeout: 20000 });
+          { enableHighAccuracy: false, timeout: 20000, maximumAge: 10000 });
       }
     }
     requestPermissions();

@@ -45,10 +45,8 @@ const SelectLocalization = ({ navigation }) => {
                     buttonPositive: 'Ok',
                 },
             );
-
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 Geolocation.getCurrentPosition(location => {
-
                     const { latitude: lat, longitude: lng } = location.coords;
 
                     setReg({
@@ -74,9 +72,11 @@ const SelectLocalization = ({ navigation }) => {
 
                         navigation.dispatch(resetAction);
                     }
-                }, () => {
+                }, (err) => {
+                    console.log('errr BUSCA LOCALIZACAO', JSON.stringify(err));
+
                     Alert.alert('Atenção', 'Não foi possível recuperar a localização do dispositivo');
-                }, { enableHighAccuracy: true, timeout: 20000 });
+                }, { enableHighAccuracy: false, timeout: 20000, maximumAge: 10000 });
             }
         }
         requestPermissions();

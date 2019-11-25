@@ -72,6 +72,8 @@ export const findAttendedModalityProviders = async ({ modalityType }) => {
     const res = await api.get(`/contracting/attended-modalities/all/${modalityType}`);
     return Promise.resolve(res.data);
   } catch (err) {
+    console.log(JSON.stringify(err))
+    console.log('errrow')
     throw err.response.data.errors[0].description;
   }
 };
