@@ -18,6 +18,7 @@ const ConfirmSolicitation = ({ navigation }) => {
     const initial = navigation.state.params;
 
     const [loading, setLoading] = useState(false);
+    const { latitude, longitude } = initial;
 
     const geocode = useContext(GeocodeContext);
 
@@ -94,48 +95,21 @@ const ConfirmSolicitation = ({ navigation }) => {
 
     useEffect(() => {
         async function requestPermissions() {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                {
-                    title: 'Atenção',
-                    message: 'Precisamos acesso à sua localização',
-                    buttonNegative: 'Cancelar',
-                    buttonPositive: 'Ok',
-                },
-            );
 
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                setLoading(true);
+            geocode
+                .fromLatLng(latitude, longitude)
+                .then(response => {
+                    try {
+                        setLoading(false);
 
-                Geolocation.getCurrentPosition(location => {
-                    console.log('localiz', location);
-                    const { latitude, longitude } = location.coords;
-
-                    setFieldValue('latitude', latitude);
-                    setFieldValue('longitude', longitude);
-
-                    geocode
-                        .fromLatLng(latitude, longitude)
-                        .then(response => {
-                            try {
-                                setLoading(false);
-
-                                extractGeocodeResults(response.results[0].address_components);
-                            } catch {
-                                Alert.alert('Não foi possível determinar sua localização');
-                            }
-                        })
-                        .catch((err) => {
-                            console.log('errr provider geocode', JSON.stringify(err));
-                            
-                            Alert.alert('Não foi possível determinar sua localização');
-                        });
-                }, (err) => {
-                    console.log('errr BUSCA LOCALIZACAO', JSON.stringify(err));
-
-                    Alert.alert('Opa :(', 'Não foi possível recuperar sua localização');
-                }, { enableHighAccuracy: false, timeout: 20000, maximumAge: 10000 });
-            }
+                        extractGeocodeResults(response.results[0].address_components);
+                    } catch {
+                        Alert.alert('Não foi possível determinar sua localização');
+                    }
+                })
+                .catch((err) => {
+                    Alert.alert('Não foi possível determinar sua localização');
+                });
         }
         requestPermissions();
     }, [])

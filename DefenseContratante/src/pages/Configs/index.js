@@ -1,10 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert, ToastAndroid } from 'react-native';
 import { Layout, Text, Input, Divider, Button } from 'react-native-ui-kitten';
 import theme from '../../theme/theme';
 import { logout } from '../../services/auth';
+import { findSearchRadiusMeters, updateSearchRadiusMeters } from '../../services/api';
+import { useAsync } from 'react-async';
 
 const Configs = ({ navigation }) => {
+    const [range, setRange] = useState("");
+
+    const { data, isLoading, isResolved } = useAsync({
+        promiseFn: findSearchRadiusMeters
+    });
+
+    useEffect(() => {
+        if (isResolved) {
+            setRange(data.kiloMetersSearchRadius.toString());
+        }
+    }, [data, isResolved]);
+
+    const handleSave = () => {
+        updateSearchRadiusMeters(range)
+            .then(res => {
+                if (res == false) {
+                    Alert.alert('Atenção', res.msg);
+                    return;
+                }
+
+                ToastAndroid.show('Raio de busca atualizado!', ToastAndroid.SHORT);
+            })
+            .catch(err => {
+                Alert.alert('Atenção', err);
+            });
+    }
+
     return (
         <Layout style={styles.layout} theme={theme}>
             <View style={styles.container}>
@@ -12,11 +41,17 @@ const Configs = ({ navigation }) => {
 
                 <View style={styles.line}>
                     <Text style={styles.label}>Raio da busca para serviços (KMs)</Text>
-                    <Input style={styles.input} keyboardType="numeric" />
+                    <Input
+                        style={styles.input}
+                        disabled={isLoading}
+                        keyboardType="numeric"
+                        value={range}
+                        onChangeText={setRange}
+                    />
                 </View>
-                <Button status="primary">Salvar</Button>
+                <Button onPress={handleSave} status="primary">Salvar</Button>
 
-                <Divider style={{ height: 3, marginTop: 100, marginBottom: 10, backgroundColor: theme["color-danger-600"] }} />
+                <Divider style={{ height: 3, marginTop: 60, marginBottom: 10, backgroundColor: theme["color-danger-600"] }} />
 
                 <Button onPress={() => {
                     logout().then(() => {

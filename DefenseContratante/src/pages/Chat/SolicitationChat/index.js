@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import { Layout, Text, List, ListItem, Icon, Button, Input } from 'react-native-ui-kitten';
 import theme from '../../../theme/theme';
 import { textStyle } from '../../../theme/textStyles';
@@ -37,7 +37,6 @@ const SolicitationChat = ({ navigation }) => {
     }
 
     const handleReceiveMessage = (data) => {
-        console.log('1')
         setMessages(lastMsgs => {
             return [...lastMsgs, data];
         });
@@ -80,7 +79,7 @@ const SolicitationChat = ({ navigation }) => {
                 setHubConnect(hb);
             }
             catch (err) {
-                console.log(err)
+                Alert.alert('Algo inesperado ocorreu', 'Não foi possível conectar-se ao chat :(');
             }
         }
 
@@ -88,10 +87,7 @@ const SolicitationChat = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
-        console.log('rub', hubConnect)
-
         if (hubConnect && hubConnect.state === HubConnectionState.Connected) {
-            console.log(hubConnect)
             hubConnect.on('receiveChatMessage', (data) => handleReceiveMessage(data));
         }
     }, [hubConnect]);

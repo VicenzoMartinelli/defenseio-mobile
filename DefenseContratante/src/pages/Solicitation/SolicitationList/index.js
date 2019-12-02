@@ -8,11 +8,11 @@ import { findCreatedSolicicitations, findOpenedSolicitations } from '../../../se
 import { PacmanIndicator } from 'react-native-indicators';
 import { modalityTypes } from '../../../utils/enums/modalityTypes';
 import { toBRDate } from '../../../utils/converters/date';
+import { NavigationEvents } from 'react-navigation';
 
 const SolicitationList = ({ navigation }) => {
 
     const inProgressList = navigation.state.params.type === 2;
-    console.log(navigation.state.params.type)
     const [solicitations, setSolicitations] = useState([])
 
     const { data, isResolved, isLoading, reload } = useAsync({
@@ -110,6 +110,9 @@ const SolicitationList = ({ navigation }) => {
                     numColumns={1}
                     renderItem={renderItem}
                     data={solicitations}
+                />
+                <NavigationEvents
+                    onDidFocus={reload}
                 />
             </View>
         </Layout>

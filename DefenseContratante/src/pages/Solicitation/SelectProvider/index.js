@@ -68,7 +68,11 @@ const SelectProvider = ({ navigation }) => {
                             appearance="ghost"
                             style={styles.actions}
                             size="small"
-                            onPress={() => { }}>Ver comentários</Button>
+                            onPress={() => {
+                                navigation.navigate('ListComments', {
+                                    id: item.providerUserId
+                                });
+                            }}>ver comentários</Button>
                     </View>
                 </View>
             </ListItem >);

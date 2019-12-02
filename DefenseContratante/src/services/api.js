@@ -72,8 +72,6 @@ export const findAttendedModalityProviders = async ({ modalityType }) => {
     const res = await api.get(`/contracting/attended-modalities/all/${modalityType}`);
     return Promise.resolve(res.data);
   } catch (err) {
-    console.log(JSON.stringify(err))
-    console.log('errrow')
     throw err.response.data.errors[0].description;
   }
 };
@@ -125,6 +123,35 @@ export const finishSolicitation = async (values) => {
   }
 };
 
+export const findSearchRadiusMeters = async () => {
+  try {
+    const res = await api.get(`/contracting/contracting-user/search-radius`);
+    return Promise.resolve(res.data);
+  } catch (err) {
+    throw err.response.data.errors[0].description;
+  }
+};
+
+export const updateSearchRadiusMeters = async (searchRadius) => {
+  try {
+    const res = await api.put(`/contracting/contracting-user/search-radius`, {
+      KiloMetersSearchRadius: searchRadius
+    });
+    return Promise.resolve(res.data);
+  } catch (err) {
+    throw err.response.data.errors[0].description;
+  }
+};
+
+export const findProviderComments = async ({ id }) => {
+  try {
+    const res = await api.get(`/contracting/contracting-user/provider-comments/${id}`);
+    return Promise.resolve(res.data);
+  } catch (err) {
+    throw err.response.data.errors[0].description;
+  }
+};
+
 export const checkProfanity = async (commentary) => {
   try {
     const params = new URLSearchParams();
@@ -140,7 +167,6 @@ export const checkProfanity = async (commentary) => {
 
     return Promise.resolve(result.data.rsp.found == 0);
   } catch (err) {
-    console.log(JSON.stringify(err))
     return false;
   }
 };

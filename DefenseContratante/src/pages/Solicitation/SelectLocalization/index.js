@@ -73,8 +73,6 @@ const SelectLocalization = ({ navigation }) => {
                         navigation.dispatch(resetAction);
                     }
                 }, (err) => {
-                    console.log('errr BUSCA LOCALIZACAO', JSON.stringify(err));
-
                     Alert.alert('Atenção', 'Não foi possível recuperar a localização do dispositivo');
                 }, { enableHighAccuracy: false, timeout: 20000, maximumAge: 10000 });
             }
@@ -99,12 +97,6 @@ const SelectLocalization = ({ navigation }) => {
                             title="Ponto inicial"
                             pinColor={theme["color-info-900"]}
                             coordinate={initial}
-                            onDragEnd={(e) => {
-                                setReg({
-                                    ...reg,
-                                    ...e.nativeEvent.coordinate
-                                });
-                            }}
                         />
                         <Marker draggable
                             pinColor={theme["color-primary-700"]}
@@ -123,7 +115,7 @@ const SelectLocalization = ({ navigation }) => {
                                 initial,
                                 reg
                             ]}
-                            strokeColor={theme["color-primary-400"]} // fallback for when `strokeColors` is not supported by the map-provider
+                            strokeColor={theme["color-primary-400"]}
                             strokeColors={[
                                 theme["color-primary-700"],
                                 '#00000000',
