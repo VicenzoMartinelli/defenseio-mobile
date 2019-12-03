@@ -1,2 +1,2 @@
 export const GeoCodeApiKey = "AIzaSyDyscwVqwGVLuqB0Gqs4pZBXTpfp9pigfk";
-export const PurifyApiKey = "d4dfecdf2f51ccc01dc1cdc113b7dcfe";
+export const PurifyApiKey = "1f7906ae6b1ab72d6c1c1d186fdcd878";
